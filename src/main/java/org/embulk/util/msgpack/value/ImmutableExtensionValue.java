@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.value.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,12 +20,12 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.value;
+package org.embulk.util.msgpack.value;
 
 /**
  * Immutable representation of MessagePack's Extension type.
  *
- * @see org.msgpack.value.ExtensionValue
+ * @see org.embulk.util.msgpack.value.ExtensionValue
  */
 public interface ImmutableExtensionValue
         extends ExtensionValue, ImmutableValue

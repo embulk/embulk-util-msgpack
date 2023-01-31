@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.core.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,16 +20,16 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.core;
+package org.embulk.util.msgpack.core;
 
-import org.msgpack.core.buffer.ArrayBufferInput;
-import org.msgpack.core.buffer.ByteBufferInput;
-import org.msgpack.core.buffer.ChannelBufferInput;
-import org.msgpack.core.buffer.ChannelBufferOutput;
-import org.msgpack.core.buffer.InputStreamBufferInput;
-import org.msgpack.core.buffer.MessageBufferInput;
-import org.msgpack.core.buffer.MessageBufferOutput;
-import org.msgpack.core.buffer.OutputStreamBufferOutput;
+import org.embulk.util.msgpack.core.buffer.ArrayBufferInput;
+import org.embulk.util.msgpack.core.buffer.ByteBufferInput;
+import org.embulk.util.msgpack.core.buffer.ChannelBufferInput;
+import org.embulk.util.msgpack.core.buffer.ChannelBufferOutput;
+import org.embulk.util.msgpack.core.buffer.InputStreamBufferInput;
+import org.embulk.util.msgpack.core.buffer.MessageBufferInput;
+import org.embulk.util.msgpack.core.buffer.MessageBufferOutput;
+import org.embulk.util.msgpack.core.buffer.OutputStreamBufferOutput;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -46,7 +53,7 @@ import java.nio.charset.CodingErrorAction;
  *   <tr><td>ByteBuffer</td><td>{@link #newDefaultUnpacker(ByteBuffer)}</td><td>{@link MessageUnpacker}</td></tr>
  *   <tr><td>InputStream</td><td>{@link #newDefaultUnpacker(InputStream)}</td><td>{@link MessageUnpacker}</td></tr>
  *   <tr><td>ReadableByteChannel</td><td>{@link #newDefaultUnpacker(ReadableByteChannel)}</td><td>{@link MessageUnpacker}</td></tr>
- *   <tr><td>{@link org.msgpack.core.buffer.MessageBufferInput}</td><td>{@link #newDefaultUnpacker(MessageBufferInput)}</td><td>{@link MessageUnpacker}</td></tr>
+ *   <tr><td>{@link org.embulk.util.msgpack.core.buffer.MessageBufferInput}</td><td>{@link #newDefaultUnpacker(MessageBufferInput)}</td><td>{@link MessageUnpacker}</td></tr>
  * </table>
  *
  * <p>
@@ -57,7 +64,7 @@ import java.nio.charset.CodingErrorAction;
  *   <tr><td>byte[]</td><td>{@link #newDefaultBufferPacker()}</td><td>{@link MessageBufferPacker}</td><tr>
  *   <tr><td>OutputStream</td><td>{@link #newDefaultPacker(OutputStream)}</td><td>{@link MessagePacker}</td></tr>
  *   <tr><td>WritableByteChannel</td><td>{@link #newDefaultPacker(WritableByteChannel)}</td><td>{@link MessagePacker}</td></tr>
- *   <tr><td>{@link org.msgpack.core.buffer.MessageBufferOutput}</td><td>{@link #newDefaultPacker(MessageBufferOutput)}</td><td>{@link MessagePacker}</td></tr>
+ *   <tr><td>{@link org.embulk.util.msgpack.core.buffer.MessageBufferOutput}</td><td>{@link #newDefaultPacker(MessageBufferOutput)}</td><td>{@link MessagePacker}</td></tr>
  * </table>
  *
  */
@@ -175,7 +182,7 @@ public class MessagePack
     /**
      * Creates a packer that serializes objects into the specified output.
      * <p>
-     * {@link org.msgpack.core.buffer.MessageBufferOutput} is an interface that lets applications customize memory
+     * {@link org.embulk.util.msgpack.core.buffer.MessageBufferOutput} is an interface that lets applications customize memory
      * allocation of internal buffer of {@link MessagePacker}. You may prefer {@link #newDefaultBufferPacker()},
      * {@link #newDefaultPacker(OutputStream)}, or {@link #newDefaultPacker(WritableByteChannel)} methods instead.
      * <p>
@@ -235,7 +242,7 @@ public class MessagePack
     /**
      * Creates an unpacker that deserializes objects from a specified input.
      * <p>
-     * {@link org.msgpack.core.buffer.MessageBufferInput} is an interface that lets applications customize memory
+     * {@link org.embulk.util.msgpack.core.buffer.MessageBufferInput} is an interface that lets applications customize memory
      * allocation of internal buffer of {@link MessageUnpacker}. You may prefer
      * {@link #newDefaultUnpacker(InputStream)}, {@link #newDefaultUnpacker(ReadableByteChannel)},
      * {@link #newDefaultUnpacker(byte[], int, int)}, or {@link #newDefaultUnpacker(ByteBuffer)} methods instead.
@@ -386,7 +393,7 @@ public class MessagePack
         /**
          * Creates a packer that serializes objects into the specified output.
          * <p>
-         * {@link org.msgpack.core.buffer.MessageBufferOutput} is an interface that lets applications customize memory
+         * {@link org.embulk.util.msgpack.core.buffer.MessageBufferOutput} is an interface that lets applications customize memory
          * allocation of internal buffer of {@link MessagePacker}.
          *
          * @param out A MessageBufferOutput that allocates buffer chunks and receives the buffer chunks with packed data filled in them
@@ -452,7 +459,7 @@ public class MessagePack
 
         /**
          * When the next payload size exceeds this threshold, MessagePacker will call
-         * {@link org.msgpack.core.buffer.MessageBufferOutput#flush()} before writing more data (default: 8192).
+         * {@link org.embulk.util.msgpack.core.buffer.MessageBufferOutput#flush()} before writing more data (default: 8192).
          */
         public PackerConfig withBufferFlushThreshold(int bytes)
         {
@@ -572,7 +579,7 @@ public class MessagePack
         /**
          * Creates an unpacker that deserializes objects from a specified input.
          * <p>
-         * {@link org.msgpack.core.buffer.MessageBufferInput} is an interface that lets applications customize memory
+         * {@link org.embulk.util.msgpack.core.buffer.MessageBufferInput} is an interface that lets applications customize memory
          * allocation of internal buffer of {@link MessageUnpacker}.
          *
          * @param in The input stream that provides sequence of buffer chunks and optionally reuses them when MessageUnpacker consumed one completely

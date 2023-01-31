@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.value.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,7 +20,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.value;
+package org.embulk.util.msgpack.value;
 
 import java.nio.ByteBuffer;
 
@@ -22,8 +29,8 @@ import java.nio.ByteBuffer;
  * <p/>
  * MessagePack's Raw type can represent a byte array at most 2<sup>64</sup>-1 bytes.
  *
- * @see org.msgpack.value.StringValue
- * @see org.msgpack.value.BinaryValue
+ * @see org.embulk.util.msgpack.value.StringValue
+ * @see org.embulk.util.msgpack.value.BinaryValue
  */
 public interface RawValue
         extends Value

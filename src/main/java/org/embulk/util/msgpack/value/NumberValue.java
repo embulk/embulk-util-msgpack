@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.value.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,15 +20,15 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.value;
+package org.embulk.util.msgpack.value;
 
 import java.math.BigInteger;
 
 /**
  * Base interface of {@link IntegerValue} and {@link FloatValue} interfaces. To extract primitive type values, call toXXX methods, which may lose some information by rounding or truncation.
  *
- * @see org.msgpack.value.IntegerValue
- * @see org.msgpack.value.FloatValue
+ * @see org.embulk.util.msgpack.value.IntegerValue
+ * @see org.embulk.util.msgpack.value.FloatValue
  */
 public interface NumberValue
         extends Value

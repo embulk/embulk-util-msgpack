@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.core.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,11 +20,11 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.core;
+package org.embulk.util.msgpack.core;
 
-import org.msgpack.core.buffer.MessageBuffer;
-import org.msgpack.core.buffer.MessageBufferOutput;
-import org.msgpack.value.Value;
+import org.embulk.util.msgpack.core.buffer.MessageBuffer;
+import org.embulk.util.msgpack.core.buffer.MessageBufferOutput;
+import org.embulk.util.msgpack.value.Value;
 
 import java.io.Closeable;
 import java.io.Flushable;
@@ -33,41 +40,41 @@ import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CoderResult;
 import java.nio.charset.CodingErrorAction;
 
-import static org.msgpack.core.MessagePack.Code.ARRAY16;
-import static org.msgpack.core.MessagePack.Code.ARRAY32;
-import static org.msgpack.core.MessagePack.Code.BIN16;
-import static org.msgpack.core.MessagePack.Code.BIN32;
-import static org.msgpack.core.MessagePack.Code.BIN8;
-import static org.msgpack.core.MessagePack.Code.EXT16;
-import static org.msgpack.core.MessagePack.Code.EXT32;
-import static org.msgpack.core.MessagePack.Code.EXT8;
-import static org.msgpack.core.MessagePack.Code.FALSE;
-import static org.msgpack.core.MessagePack.Code.FIXARRAY_PREFIX;
-import static org.msgpack.core.MessagePack.Code.FIXEXT1;
-import static org.msgpack.core.MessagePack.Code.FIXEXT16;
-import static org.msgpack.core.MessagePack.Code.FIXEXT2;
-import static org.msgpack.core.MessagePack.Code.FIXEXT4;
-import static org.msgpack.core.MessagePack.Code.FIXEXT8;
-import static org.msgpack.core.MessagePack.Code.FIXMAP_PREFIX;
-import static org.msgpack.core.MessagePack.Code.FIXSTR_PREFIX;
-import static org.msgpack.core.MessagePack.Code.FLOAT32;
-import static org.msgpack.core.MessagePack.Code.FLOAT64;
-import static org.msgpack.core.MessagePack.Code.INT16;
-import static org.msgpack.core.MessagePack.Code.INT32;
-import static org.msgpack.core.MessagePack.Code.INT64;
-import static org.msgpack.core.MessagePack.Code.INT8;
-import static org.msgpack.core.MessagePack.Code.MAP16;
-import static org.msgpack.core.MessagePack.Code.MAP32;
-import static org.msgpack.core.MessagePack.Code.NIL;
-import static org.msgpack.core.MessagePack.Code.STR16;
-import static org.msgpack.core.MessagePack.Code.STR32;
-import static org.msgpack.core.MessagePack.Code.STR8;
-import static org.msgpack.core.MessagePack.Code.TRUE;
-import static org.msgpack.core.MessagePack.Code.UINT16;
-import static org.msgpack.core.MessagePack.Code.UINT32;
-import static org.msgpack.core.MessagePack.Code.UINT64;
-import static org.msgpack.core.MessagePack.Code.UINT8;
-import static org.msgpack.core.Preconditions.checkNotNull;
+import static org.embulk.util.msgpack.core.MessagePack.Code.ARRAY16;
+import static org.embulk.util.msgpack.core.MessagePack.Code.ARRAY32;
+import static org.embulk.util.msgpack.core.MessagePack.Code.BIN16;
+import static org.embulk.util.msgpack.core.MessagePack.Code.BIN32;
+import static org.embulk.util.msgpack.core.MessagePack.Code.BIN8;
+import static org.embulk.util.msgpack.core.MessagePack.Code.EXT16;
+import static org.embulk.util.msgpack.core.MessagePack.Code.EXT32;
+import static org.embulk.util.msgpack.core.MessagePack.Code.EXT8;
+import static org.embulk.util.msgpack.core.MessagePack.Code.FALSE;
+import static org.embulk.util.msgpack.core.MessagePack.Code.FIXARRAY_PREFIX;
+import static org.embulk.util.msgpack.core.MessagePack.Code.FIXEXT1;
+import static org.embulk.util.msgpack.core.MessagePack.Code.FIXEXT16;
+import static org.embulk.util.msgpack.core.MessagePack.Code.FIXEXT2;
+import static org.embulk.util.msgpack.core.MessagePack.Code.FIXEXT4;
+import static org.embulk.util.msgpack.core.MessagePack.Code.FIXEXT8;
+import static org.embulk.util.msgpack.core.MessagePack.Code.FIXMAP_PREFIX;
+import static org.embulk.util.msgpack.core.MessagePack.Code.FIXSTR_PREFIX;
+import static org.embulk.util.msgpack.core.MessagePack.Code.FLOAT32;
+import static org.embulk.util.msgpack.core.MessagePack.Code.FLOAT64;
+import static org.embulk.util.msgpack.core.MessagePack.Code.INT16;
+import static org.embulk.util.msgpack.core.MessagePack.Code.INT32;
+import static org.embulk.util.msgpack.core.MessagePack.Code.INT64;
+import static org.embulk.util.msgpack.core.MessagePack.Code.INT8;
+import static org.embulk.util.msgpack.core.MessagePack.Code.MAP16;
+import static org.embulk.util.msgpack.core.MessagePack.Code.MAP32;
+import static org.embulk.util.msgpack.core.MessagePack.Code.NIL;
+import static org.embulk.util.msgpack.core.MessagePack.Code.STR16;
+import static org.embulk.util.msgpack.core.MessagePack.Code.STR32;
+import static org.embulk.util.msgpack.core.MessagePack.Code.STR8;
+import static org.embulk.util.msgpack.core.MessagePack.Code.TRUE;
+import static org.embulk.util.msgpack.core.MessagePack.Code.UINT16;
+import static org.embulk.util.msgpack.core.MessagePack.Code.UINT32;
+import static org.embulk.util.msgpack.core.MessagePack.Code.UINT64;
+import static org.embulk.util.msgpack.core.MessagePack.Code.UINT8;
+import static org.embulk.util.msgpack.core.Preconditions.checkNotNull;
 
 /**
  * MessagePack serializer that converts objects into binary.
@@ -199,11 +206,11 @@ public class MessagePacker
     private CharsetEncoder encoder;
 
     /**
-     * Create an MessagePacker that outputs the packed data to the given {@link org.msgpack.core.buffer.MessageBufferOutput}.
+     * Create an MessagePacker that outputs the packed data to the given {@link org.embulk.util.msgpack.core.buffer.MessageBufferOutput}.
      * This method is available for subclasses to override. Use MessagePack.PackerConfig.newPacker method to instantiate this implementation.
      *
-     * @param out MessageBufferOutput. Use {@link org.msgpack.core.buffer.OutputStreamBufferOutput}, {@link org.msgpack.core.buffer.ChannelBufferOutput} or
-     * your own implementation of {@link org.msgpack.core.buffer.MessageBufferOutput} interface.
+     * @param out MessageBufferOutput. Use {@link org.embulk.util.msgpack.core.buffer.OutputStreamBufferOutput}, {@link org.embulk.util.msgpack.core.buffer.ChannelBufferOutput} or
+     * your own implementation of {@link org.embulk.util.msgpack.core.buffer.MessageBufferOutput} interface.
      */
     protected MessagePacker(MessageBufferOutput out, MessagePack.PackerConfig config)
     {
@@ -667,9 +674,9 @@ public class MessagePacker
              *
              * The following exception has happened before:
              *
-             * org.msgpack.core.MessageStringCodingException: java.nio.charset.MalformedInputException: Input length = 1
-             *     at org.msgpack.core.MessagePacker.encodeStringToBufferAt(MessagePacker.java:467) ~[msgpack-core-0.8.6.jar:na]
-             *     at org.msgpack.core.MessagePacker.packString(MessagePacker.java:535) ~[msgpack-core-0.8.6.jar:na]
+             * org.embulk.util.msgpack.core.MessageStringCodingException: java.nio.charset.MalformedInputException: Input length = 1
+             *     at org.embulk.util.msgpack.core.MessagePacker.encodeStringToBufferAt(MessagePacker.java:467) ~[msgpack-core-0.8.6.jar:na]
+             *     at org.embulk.util.msgpack.core.MessagePacker.packString(MessagePacker.java:535) ~[msgpack-core-0.8.6.jar:na]
              *
              * This happened on JVM 7. But no ideas how to reproduce.
              */

@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.core.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,10 +20,10 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.core
+package org.embulk.util.msgpack.core
 
-import org.msgpack.core.MessagePack.Code
-import org.msgpack.value.ValueType
+import org.embulk.util.msgpack.core.MessagePack.Code
+import org.embulk.util.msgpack.value.ValueType
 import org.scalatest.exceptions.TestFailedException
 
 import scala.util.Random

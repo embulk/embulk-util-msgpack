@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.core.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,13 +20,13 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.core
+package org.embulk.util.msgpack.core
 
 import java.io.{ByteArrayOutputStream, File, FileInputStream, FileOutputStream}
 
-import org.msgpack.core.MessagePack.{UnpackerConfig, PackerConfig}
-import org.msgpack.core.buffer.{ChannelBufferOutput, OutputStreamBufferOutput}
-import org.msgpack.value.ValueFactory
+import org.embulk.util.msgpack.core.MessagePack.{UnpackerConfig, PackerConfig}
+import org.embulk.util.msgpack.core.buffer.{ChannelBufferOutput, OutputStreamBufferOutput}
+import org.embulk.util.msgpack.value.ValueFactory
 import xerial.core.io.IOUtil
 
 import scala.util.Random

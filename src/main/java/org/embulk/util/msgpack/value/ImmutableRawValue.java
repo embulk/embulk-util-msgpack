@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.value.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,15 +20,15 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.value;
+package org.embulk.util.msgpack.value;
 
 /**
  * Immutable base interface of {@link ImmutableStringValue} and {@link ImmutableBinaryValue} interfaces.
  * <p/>
  * MessagePack's Raw type can represent a byte array at most 2<sup>64</sup>-1 bytes.
  *
- * @see org.msgpack.value.ImmutableStringValue
- * @see org.msgpack.value.ImmutableBinaryValue
+ * @see org.embulk.util.msgpack.value.ImmutableStringValue
+ * @see org.embulk.util.msgpack.value.ImmutableBinaryValue
  */
 public interface ImmutableRawValue
         extends RawValue, ImmutableValue

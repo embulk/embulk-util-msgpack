@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.value.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,18 +20,18 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.value;
+package org.embulk.util.msgpack.value;
 
-import org.msgpack.value.impl.ImmutableArrayValueImpl;
-import org.msgpack.value.impl.ImmutableBigIntegerValueImpl;
-import org.msgpack.value.impl.ImmutableBinaryValueImpl;
-import org.msgpack.value.impl.ImmutableBooleanValueImpl;
-import org.msgpack.value.impl.ImmutableDoubleValueImpl;
-import org.msgpack.value.impl.ImmutableExtensionValueImpl;
-import org.msgpack.value.impl.ImmutableLongValueImpl;
-import org.msgpack.value.impl.ImmutableMapValueImpl;
-import org.msgpack.value.impl.ImmutableNilValueImpl;
-import org.msgpack.value.impl.ImmutableStringValueImpl;
+import org.embulk.util.msgpack.value.impl.ImmutableArrayValueImpl;
+import org.embulk.util.msgpack.value.impl.ImmutableBigIntegerValueImpl;
+import org.embulk.util.msgpack.value.impl.ImmutableBinaryValueImpl;
+import org.embulk.util.msgpack.value.impl.ImmutableBooleanValueImpl;
+import org.embulk.util.msgpack.value.impl.ImmutableDoubleValueImpl;
+import org.embulk.util.msgpack.value.impl.ImmutableExtensionValueImpl;
+import org.embulk.util.msgpack.value.impl.ImmutableLongValueImpl;
+import org.embulk.util.msgpack.value.impl.ImmutableMapValueImpl;
+import org.embulk.util.msgpack.value.impl.ImmutableNilValueImpl;
+import org.embulk.util.msgpack.value.impl.ImmutableStringValueImpl;
 
 import java.math.BigInteger;
 import java.util.AbstractMap;
