@@ -49,7 +49,7 @@ public final class MessageUnpackerToJsonValue {
         ;
     }
 
-    public static JsonValue unpackValue(
+    public static JsonValue unpackJsonValue(
             final MessageUnpacker unpacker,
             final BigIntegerOption bigIntegerOption,
             final long defaultLong)
@@ -115,26 +115,38 @@ public final class MessageUnpackerToJsonValue {
             }
             case ARRAY: {
                 final int size = unpacker.unpackArrayHeader();
-                final Value[] array = new Value[size];
+                final JsonValue[] array = new JsonValue[size];
                 for (int i = 0; i < size; i++) {
-                    array[i] = unpacker.unpackValue();
+                    array[i] = unpackJsonValue(unpacker, bigIntegerOption, defaultLong);
                 }
-                return ValueFactory.newArray(array, true);
+                return JsonArray.ofUnsafe(array);
             }
             case MAP: {
                 final int size = unpacker.unpackMapHeader();
-                final Value[] kvs = new Value[size * 2];
+                final Stirng[] keys = new String[size];
+                final JsonValue[] values = new JsonValue[size];
                 for (int i = 0; i < size * 2; ) {
-                    kvs[i] = unpacker.unpackValue();
-                    i++;
-                    kvs[i] = unpacker.unpackValue();
+                    // TODO: kvs[i] = unpacker.unpackValue();
+                    value[i] = unpackJsonValue(unpacker, bigIntegerOption, defaultLong);
                     i++;
                 }
-                return ValueFactory.newMap(kvs, true);
+                return JsonObject.ofUnsafe(keys, values);
             }
             case EXTENSION: {
+                // It comes from ImmutableExtensionValueImpl#toJson().
                 final ExtensionTypeHeader extHeader = unpacker.unpackExtensionTypeHeader();
-                return ValueFactory.newExtension(extHeader.getType(), unpacker.readPayload(extHeader.getLength()));
+
+                final JsonValue[] array = new JsonValue[2];
+                array[0] = JsonLong.of((long) type);
+
+                final byte[] payload = unpacker.readPayload(extHeader.getLength());
+                final StringBuilder stringBuilder = new StringBuilder;
+                for (final byte e : payload) {
+                    stringBuilder.append(Integer.toString((int) e, 16));
+                }
+                array[1] = JsonString.of(stringBuilder.toString());
+
+                return JsonArray.ofUnsafe(array);
             }
             default:
                 throw new MessageNeverUsedFormatException("Unknown value type");
@@ -158,7 +170,6 @@ public final class MessageUnpackerToJsonValue {
             }
         }
     }
-
 
     private static final BigInteger LONG_MAX = BigInteger.valueOf(Long.MAX_VALUE);
     private static final BigInteger LONG_MIN = BigInteger.valueOf(Long.MIN_VALUE);

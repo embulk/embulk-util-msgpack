@@ -43,6 +43,8 @@ java {
 }
 
 dependencies {
+    compileOnly("org.embulk:embulk-api:0.10.42")
+
     testImplementation("junit:junit:4.13.2")
 
     // For Scala-based tests came with msgpack-core embedded
