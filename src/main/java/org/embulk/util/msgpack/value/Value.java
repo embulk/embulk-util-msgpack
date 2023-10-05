@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.value.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,9 +20,9 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.value;
+package org.embulk.util.msgpack.value;
 
-import org.msgpack.core.MessagePacker;
+import org.embulk.util.msgpack.core.MessagePacker;
 
 import java.io.IOException;
 
@@ -26,7 +33,7 @@ import java.io.IOException;
  * <p>
  * You can check type first using <b>isXxx()</b> methods or {@link #getValueType()} method, then convert the value to a
  * subtype using <b>asXxx()</b> methods. You can also call asXxx() methods directly and catch
- * {@link org.msgpack.core.MessageTypeCastException}.
+ * {@link org.embulk.util.msgpack.core.MessageTypeCastException}.
  *
  * <table>
  *   <tr><th>MessagePack type</th><th>Check method</th><th>Convert method</th><th>Value type</th></tr>

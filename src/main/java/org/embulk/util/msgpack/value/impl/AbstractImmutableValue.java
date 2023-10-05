@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.value.impl.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,21 +20,21 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.value.impl;
+package org.embulk.util.msgpack.value.impl;
 
-import org.msgpack.core.MessageTypeCastException;
-import org.msgpack.value.ImmutableArrayValue;
-import org.msgpack.value.ImmutableBinaryValue;
-import org.msgpack.value.ImmutableBooleanValue;
-import org.msgpack.value.ImmutableExtensionValue;
-import org.msgpack.value.ImmutableFloatValue;
-import org.msgpack.value.ImmutableIntegerValue;
-import org.msgpack.value.ImmutableMapValue;
-import org.msgpack.value.ImmutableNilValue;
-import org.msgpack.value.ImmutableNumberValue;
-import org.msgpack.value.ImmutableRawValue;
-import org.msgpack.value.ImmutableStringValue;
-import org.msgpack.value.ImmutableValue;
+import org.embulk.util.msgpack.core.MessageTypeCastException;
+import org.embulk.util.msgpack.value.ImmutableArrayValue;
+import org.embulk.util.msgpack.value.ImmutableBinaryValue;
+import org.embulk.util.msgpack.value.ImmutableBooleanValue;
+import org.embulk.util.msgpack.value.ImmutableExtensionValue;
+import org.embulk.util.msgpack.value.ImmutableFloatValue;
+import org.embulk.util.msgpack.value.ImmutableIntegerValue;
+import org.embulk.util.msgpack.value.ImmutableMapValue;
+import org.embulk.util.msgpack.value.ImmutableNilValue;
+import org.embulk.util.msgpack.value.ImmutableNumberValue;
+import org.embulk.util.msgpack.value.ImmutableRawValue;
+import org.embulk.util.msgpack.value.ImmutableStringValue;
+import org.embulk.util.msgpack.value.ImmutableValue;
 
 abstract class AbstractImmutableValue
         implements ImmutableValue

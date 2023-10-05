@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.value.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,13 +20,13 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.value;
+package org.embulk.util.msgpack.value;
 
 /**
  * Immutable base interface of {@link ImmutableIntegerValue} and {@link ImmutableFloatValue} interfaces. To extract primitive type values, call toXXX methods, which may lose some information by rounding or truncation.
  *
- * @see org.msgpack.value.ImmutableIntegerValue
- * @see org.msgpack.value.ImmutableFloatValue
+ * @see org.embulk.util.msgpack.value.ImmutableIntegerValue
+ * @see org.embulk.util.msgpack.value.ImmutableFloatValue
  */
 public interface ImmutableNumberValue
         extends NumberValue, ImmutableValue

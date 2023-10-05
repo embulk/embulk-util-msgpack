@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.value.impl.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,13 +20,13 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.value.impl;
+package org.embulk.util.msgpack.value.impl;
 
-import org.msgpack.core.MessagePacker;
-import org.msgpack.value.ImmutableNumberValue;
-import org.msgpack.value.ImmutableFloatValue;
-import org.msgpack.value.Value;
-import org.msgpack.value.ValueType;
+import org.embulk.util.msgpack.core.MessagePacker;
+import org.embulk.util.msgpack.value.ImmutableNumberValue;
+import org.embulk.util.msgpack.value.ImmutableFloatValue;
+import org.embulk.util.msgpack.value.Value;
+import org.embulk.util.msgpack.value.ValueType;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -28,7 +35,7 @@ import java.math.BigInteger;
 /**
  * {@code ImmutableDoubleValueImpl} Implements {@code ImmutableFloatValue} using a {@code double} field.
  *
- * @see org.msgpack.value.FloatValue
+ * @see org.embulk.util.msgpack.value.FloatValue
  */
 public class ImmutableDoubleValueImpl
         extends AbstractImmutableValue

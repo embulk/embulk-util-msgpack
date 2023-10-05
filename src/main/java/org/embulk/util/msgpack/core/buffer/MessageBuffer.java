@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.core.buffer.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,7 +20,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.core.buffer;
+package org.embulk.util.msgpack.core.buffer;
 
 import sun.misc.Unsafe;
 
@@ -24,8 +31,8 @@ import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import static org.msgpack.core.Preconditions.checkArgument;
-import static org.msgpack.core.Preconditions.checkNotNull;
+import static org.embulk.util.msgpack.core.Preconditions.checkArgument;
+import static org.embulk.util.msgpack.core.Preconditions.checkNotNull;
 
 /**
  * MessageBuffer class is an abstraction of memory with fast methods to serialize and deserialize primitive values
@@ -60,9 +67,9 @@ public class MessageBuffer
      */
     static final int ARRAY_BYTE_BASE_OFFSET;
 
-    private static final String UNIVERSAL_MESSAGE_BUFFER = "org.msgpack.core.buffer.MessageBufferU";
-    private static final String BIGENDIAN_MESSAGE_BUFFER = "org.msgpack.core.buffer.MessageBufferBE";
-    private static final String DEFAULT_MESSAGE_BUFFER = "org.msgpack.core.buffer.MessageBuffer";
+    private static final String UNIVERSAL_MESSAGE_BUFFER = "org.embulk.util.msgpack.core.buffer.MessageBufferU";
+    private static final String BIGENDIAN_MESSAGE_BUFFER = "org.embulk.util.msgpack.core.buffer.MessageBufferBE";
+    private static final String DEFAULT_MESSAGE_BUFFER = "org.embulk.util.msgpack.core.buffer.MessageBuffer";
 
     static {
         boolean useUniversalBuffer = false;

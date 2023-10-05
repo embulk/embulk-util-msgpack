@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.core.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,9 +20,9 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.core;
+package org.embulk.util.msgpack.core;
 
-import static org.msgpack.core.Preconditions.checkArgument;
+import static org.embulk.util.msgpack.core.Preconditions.checkArgument;
 
 /**
  * Header of the Extension types
@@ -30,8 +37,8 @@ public class ExtensionTypeHeader
      * Example:
      * <pre>
      * {@code
-     * import org.msgpack.core.ExtensionTypeHeader;
-     * import static org.msgpack.core.ExtensionTypeHeader.checkedCastToByte;
+     * import org.embulk.util.msgpack.core.ExtensionTypeHeader;
+     * import static org.embulk.util.msgpack.core.ExtensionTypeHeader.checkedCastToByte;
      * ...
      * ExtensionTypeHeader header = new ExtensionTypeHeader(checkedCastToByte(0x01), 32);
      * ...

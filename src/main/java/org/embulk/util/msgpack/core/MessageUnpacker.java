@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.core.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,15 +20,15 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.core;
+package org.embulk.util.msgpack.core;
 
-import org.msgpack.core.MessagePack.Code;
-import org.msgpack.core.buffer.MessageBuffer;
-import org.msgpack.core.buffer.MessageBufferInput;
-import org.msgpack.value.ImmutableValue;
-import org.msgpack.value.Value;
-import org.msgpack.value.ValueFactory;
-import org.msgpack.value.Variable;
+import org.embulk.util.msgpack.core.MessagePack.Code;
+import org.embulk.util.msgpack.core.buffer.MessageBuffer;
+import org.embulk.util.msgpack.core.buffer.MessageBufferInput;
+import org.embulk.util.msgpack.value.ImmutableValue;
+import org.embulk.util.msgpack.value.Value;
+import org.embulk.util.msgpack.value.ValueFactory;
+import org.embulk.util.msgpack.value.Variable;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -33,7 +40,7 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CoderResult;
 import java.nio.charset.CodingErrorAction;
 
-import static org.msgpack.core.Preconditions.checkNotNull;
+import static org.embulk.util.msgpack.core.Preconditions.checkNotNull;
 
 /**
  * MessagePack deserializer that converts binary into objects.

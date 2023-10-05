@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.value.impl.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,11 +20,11 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.value.impl;
+package org.embulk.util.msgpack.value.impl;
 
-import org.msgpack.core.MessagePack;
-import org.msgpack.core.MessageStringCodingException;
-import org.msgpack.value.ImmutableRawValue;
+import org.embulk.util.msgpack.core.MessagePack;
+import org.embulk.util.msgpack.core.MessageStringCodingException;
+import org.embulk.util.msgpack.value.ImmutableRawValue;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;

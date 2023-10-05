@@ -1,3 +1,10 @@
+/*
+ * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
+ * - moving its Java package to org.embulk.util.msgpack.value.example.
+ *
+ * It is licensed under the Apache License, Version 2.0.
+ */
+
 //
 // MessagePack for Java
 //
@@ -13,20 +20,20 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-package org.msgpack.core.example;
+package org.embulk.util.msgpack.core.example;
 
-import org.msgpack.core.MessagePack;
-import org.msgpack.core.MessagePack.PackerConfig;
-import org.msgpack.core.MessagePack.UnpackerConfig;
-import org.msgpack.core.MessageBufferPacker;
-import org.msgpack.core.MessageFormat;
-import org.msgpack.core.MessagePacker;
-import org.msgpack.core.MessageUnpacker;
-import org.msgpack.value.ArrayValue;
-import org.msgpack.value.ExtensionValue;
-import org.msgpack.value.FloatValue;
-import org.msgpack.value.IntegerValue;
-import org.msgpack.value.Value;
+import org.embulk.util.msgpack.core.MessagePack;
+import org.embulk.util.msgpack.core.MessagePack.PackerConfig;
+import org.embulk.util.msgpack.core.MessagePack.UnpackerConfig;
+import org.embulk.util.msgpack.core.MessageBufferPacker;
+import org.embulk.util.msgpack.core.MessageFormat;
+import org.embulk.util.msgpack.core.MessagePacker;
+import org.embulk.util.msgpack.core.MessageUnpacker;
+import org.embulk.util.msgpack.value.ArrayValue;
+import org.embulk.util.msgpack.value.ExtensionValue;
+import org.embulk.util.msgpack.value.FloatValue;
+import org.embulk.util.msgpack.value.IntegerValue;
+import org.embulk.util.msgpack.value.Value;
 
 import java.io.File;
 import java.io.FileInputStream;
