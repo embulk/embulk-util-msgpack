@@ -1,126 +1,55 @@
-MessagePack for Java 
-=== 
+embulk-util-msgpack
+====================
 
-[MessagePack](http://msgpack.org) is a binary serialization format. If you need a fast and compact alternative of JSON, MessagePack is your friend. For example, a small integer can be encoded in a single byte, and short strings only need a single byte prefix + the original byte array. MessagePack implementation is already available in various languages (See also the list in http://msgpack.org) and works as a universal data format.
+This is a utility with the MessagePack format.
 
- * Message Pack specification: <https://github.com/msgpack/msgpack/blob/master/spec.md>
+It started from a fork of [MessagePack for Java (`msgpack-java`)](https://github.com/msgpack/msgpack-java) so that it would not depend on `msgpack-java`. Plugin's `msgpack-java` could conflict because the Embulk SPI has had a dependency on `msgpack-java` by itself.
 
-MessagePack v7 (or later) is a faster implementation of the previous version [v06](https://github.com/msgpack/msgpack-java/tree/v06), and
-supports all of the message pack types, including [extension format](https://github.com/msgpack/msgpack/blob/master/spec.md#formats-ext).
+Once the Embulk SPI removes the dependency on `msgpack-java`, as planned in [EEP-2](https://github.com/embulk/embulk/blob/master/docs/eeps/eep-0002.md), it would eventually depend on `msgpack-java`, and remove the copy.
 
-[JavaDoc is available at javadoc.io](https://www.javadoc.io/doc/org.msgpack/msgpack-core).
+For Embulk plugin developers
+-----------------------------
 
-## Quick Start
+* [Javadoc](https://dev.embulk.org/embulk-util-msgpack/)
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.msgpack/msgpack-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.msgpack/msgpack-core/)
-[![Javadoc](https://javadoc.io/badge/org.msgpack/msgpack-core.svg)](https://www.javadoc.io/doc/org.msgpack/msgpack-core)
+For Maintainers
+----------------
 
-For Maven users:
-```
-<dependency>
-   <groupId>org.msgpack</groupId>
-   <artifactId>msgpack-core</artifactId>
-   <version>(version)</version>
-</dependency>
-```
+### Release
 
-For sbt users:
-```
-libraryDependencies += "org.msgpack" % "msgpack-core" % "(version)"
-```
-
-For gradle users:
-```
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    compile 'org.msgpack:msgpack-core:(version)'
-}
-```
-
-- [Usage examples](msgpack-core/src/test/java/org/msgpack/core/example/MessagePackExample.java)
-
-### Integration with Jackson ObjectMapper (jackson-databind)
-
-msgpack-java supports serialization and deserialization of Java objects through [jackson-databind](https://github.com/FasterXML/jackson-databind).
-For details, see [msgpack-jackson/README.md](msgpack-jackson/README.md). The template-based serialization mechanism used in v06 is deprecated.
-
-- [Release Notes](RELEASE_NOTES.md)
-
-## For MessagePack Developers [![Travis CI](https://travis-ci.org/msgpack/msgpack-java.svg?branch=v07-develop)](https://travis-ci.org/msgpack/msgpack-java)
-
-msgpack-java uses [sbt](http://www.scala-sbt.org/) for building the projects. For the basic usage of sbt, see:
- * [Building Java projects with sbt](http://xerial.org/blog/2014/03/24/sbt/)
-
-Coding style
- * msgpack-java uses [the same coding style](https://github.com/airlift/codestyle) with Facebook Presto
-  * [IntelliJ setting file](https://raw.githubusercontent.com/airlift/codestyle/master/IntelliJIdea14/Airlift.xml)
-
-### Basic sbt commands
-Enter the sbt console:
-```
-$ ./sbt
-```
-
-Here is a list of sbt commands for daily development:
-```
-> ~compile                                 # Compile source codes
-> ~test:compile                            # Compile both source and test codes
-> ~test                                    # Run tests upon source code change
-> ~testOnly *MessagePackTest               # Run tests in the specified class
-> ~testOnly *MessagePackTest -- -n prim    # Run the test tagged as "prim"
-> project msgpack-core                     # Focus on a specific project
-> package                                  # Create a jar file in the target folder of each project
-> findbugs                                 # Produce findbugs report in target/findbugs
-> jacoco:cover                             # Report the code coverage of tests to target/jacoco folder
-> jcheckStyle                              # Run check style
-> ;scalafmt;test:scalafmt;scalafmtSbt      # Reformat Scala codes
-```
-
-### Publishing
+Modify `version` in `build.gradle` at a detached commit, and then tag the commit with an annotation.
 
 ```
-> publishLocal            # Install to local .ivy2 repository
-> publishM2               # Install to local .m2 Maven repository
-> publish                 # Publishing a snapshot version to the Sonatype repository
+git checkout --detach master
+
+(Edit: Remove "-SNAPSHOT" in "version" in build.gradle.)
+
+git add build.gradle
+
+git commit -m "Release vX.Y.Z"
+
+git tag -a vX.Y.Z
+
+(Edit: Write a tag annotation in the changelog format.)
 ```
 
-### Publish to Sonatype (Maven Central)
-
-To publish a new version, you only need to add a new git tag and push it to GitHub. GitHub Action will deploy a new release version to Maven Central (Sonatype).
-
-```scala
-$ git tag v0.x.y
-$ git push origin v0.x.y
-```
-
-If you need to publish to Maven central using a local machine, you need to configure [sbt-sonatype](https://github.com/xerial/sbt-sonatype) plugin. First set Sonatype account information (user name and password) in the global sbt settings. To protect your password, never include this file in your project.
-
-___$HOME/.sbt/(sbt-version)/sonatype.sbt___
+See [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) for the changelog format. We adopt a part of it for Git's tag annotation like below.
 
 ```
-credentials += Credentials("Sonatype Nexus Repository Manager",
-        "oss.sonatype.org",
-        "(Sonatype user name)",
-        "(Sonatype password)")
+## [X.Y.Z] - YYYY-MM-DD
+
+### Added
+- Added a feature.
+
+### Changed
+- Changed something.
+
+### Fixed
+- Fixed a bug.
 ```
 
-You may also need to configure GPG. See the instruction in [sbt-pgp](https://github.com/sbt/sbt-pgp).
-
-Then, run `publishedSigned` followed by `sonatypeBundleRelease`:
-```
-# [optional] When you need to perform the individual release steps manually, use the following commands:
-> publishSigned           # Publish GPG signed artifacts to the Sonatype repository
-> sonatypeBundleRelease   # Publish to the Maven Central (It will be synched within less than 4 hours)
-```
-
-If some sporadic error happens (e.g., Sonatype timeout), rerun `sonatypeBundleRelease` again.
-
-### Project Structure
+Push the annotated tag, then. It triggers a release operation on GitHub Actions after approval.
 
 ```
-msgpack-core                 # Contains packer/unpacker implementation that never uses third-party libraries
-msgpack-jackson              # Contains jackson-dataformat-java implementation
+git push -u origin vX.Y.Z
 ```
