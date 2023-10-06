@@ -89,6 +89,12 @@ tasks.named<Jar>("javadocJar") {
     }
 }
 
+// It should not publish a `.module` file in Maven Central.
+// https://docs.gradle.org/current/userguide/publishing_gradle_module_metadata.html#sub:disabling-gmm-publication
+tasks.withType<GenerateModuleMetadata> {
+    enabled = false
+}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
