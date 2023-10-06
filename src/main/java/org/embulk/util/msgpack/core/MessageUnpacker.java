@@ -1,6 +1,8 @@
 /*
  * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
  * - moving its Java package to org.embulk.util.msgpack.core.
+ * - removing #unpackValue() and #unpackValue(Variable)
+ * - adding #unpackAsJsonValue()
  *
  * It is licensed under the Apache License, Version 2.0.
  */
@@ -22,13 +24,17 @@
 //
 package org.embulk.util.msgpack.core;
 
+import org.embulk.spi.json.JsonArray;
+import org.embulk.spi.json.JsonBoolean;
+import org.embulk.spi.json.JsonDouble;
+import org.embulk.spi.json.JsonLong;
+import org.embulk.spi.json.JsonNull;
+import org.embulk.spi.json.JsonObject;
+import org.embulk.spi.json.JsonString;
+import org.embulk.spi.json.JsonValue;
 import org.embulk.util.msgpack.core.MessagePack.Code;
 import org.embulk.util.msgpack.core.buffer.MessageBuffer;
 import org.embulk.util.msgpack.core.buffer.MessageBufferInput;
-import org.embulk.util.msgpack.value.ImmutableValue;
-import org.embulk.util.msgpack.value.Value;
-import org.embulk.util.msgpack.value.ValueFactory;
-import org.embulk.util.msgpack.value.Variable;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -602,123 +608,70 @@ public class MessageUnpacker
         }
     }
 
-    public ImmutableValue unpackValue()
+    public JsonValue unpackAsJsonValue()
             throws IOException
     {
         MessageFormat mf = getNextFormat();
         switch (mf.getValueType()) {
             case NIL:
                 readByte();
-                return ValueFactory.newNil();
+                return JsonNull.NULL;
             case BOOLEAN:
-                return ValueFactory.newBoolean(unpackBoolean());
+                return JsonBoolean.of(unpackBoolean());
             case INTEGER:
                 if (mf == MessageFormat.UINT64) {
-                    return ValueFactory.newInteger(unpackBigInteger());
+                    final BigInteger bigInteger = unpackBigInteger();
+                    return JsonLong.withLiteral(bigInteger.longValue(), bigInteger.toString());
                 }
                 else {
-                    return ValueFactory.newInteger(unpackLong());
+                    return JsonLong.of(unpackLong());
                 }
             case FLOAT:
-                return ValueFactory.newFloat(unpackDouble());
-            case STRING: {
-                int length = unpackRawStringHeader();
-                return ValueFactory.newString(readPayload(length), true);
-            }
+                return JsonDouble.of(unpackDouble());
+            case STRING:
+                return JsonString.of(unpackString());
             case BINARY: {
-                int length = unpackBinaryHeader();
-                return ValueFactory.newBinary(readPayload(length), true);
+                if (!allowReadingBinaryAsString) {
+                    throw new MessageTypeCastException("Encountered MessagePack Binary while allowReadingBinaryAsString is false");
+                }
+                return JsonString.of(unpackString());
             }
             case ARRAY: {
                 int size = unpackArrayHeader();
-                Value[] array = new Value[size];
+                final JsonValue[] array = new JsonValue[size];
                 for (int i = 0; i < size; i++) {
-                    array[i] = unpackValue();
+                    array[i] = unpackAsJsonValue();
                 }
-                return ValueFactory.newArray(array, true);
+                return JsonArray.ofUnsafe(array);
             }
             case MAP: {
                 int size = unpackMapHeader();
-                Value[] kvs = new Value[size * 2];
-                for (int i = 0; i < size * 2; ) {
-                    kvs[i] = unpackValue();
-                    i++;
-                    kvs[i] = unpackValue();
-                    i++;
+                final String[] keys = new String[size];
+                final JsonValue[] values = new JsonValue[size];
+                for (int i = 0; i < size; i++) {
+                    // TODO: Optimize not to create a JsonValue instance.
+                    final JsonValue keyAsJsonValue = unpackAsJsonValue();
+                    if (!keyAsJsonValue.isJsonString()) {
+                        throw new MessageTypeException("Expected String as a key of MessagePack Map as JSON");
+                    }
+                    keys[i] = keyAsJsonValue.asJsonString().getString();
+                    values[i] = unpackAsJsonValue();
                 }
-                return ValueFactory.newMap(kvs, true);
+                return JsonObject.ofUnsafe(keys, values);
             }
             case EXTENSION: {
                 ExtensionTypeHeader extHeader = unpackExtensionTypeHeader();
-                return ValueFactory.newExtension(extHeader.getType(), readPayload(extHeader.getLength()));
+                final byte[] data = readPayload(extHeader.getLength());
+                final StringBuilder builder = new StringBuilder();
+                for (final byte e : data) {
+                    builder.append(Integer.toString((int) e, 16));
+                }
+                return JsonArray.of(
+                        JsonLong.of((long) extHeader.getType()),
+                        JsonString.of(builder.toString()));
             }
             default:
                 throw new MessageNeverUsedFormatException("Unknown value type");
-        }
-    }
-
-    public Variable unpackValue(Variable var)
-            throws IOException
-    {
-        MessageFormat mf = getNextFormat();
-        switch (mf.getValueType()) {
-            case NIL:
-                readByte();
-                var.setNilValue();
-                return var;
-            case BOOLEAN:
-                var.setBooleanValue(unpackBoolean());
-                return var;
-            case INTEGER:
-                switch (mf) {
-                    case UINT64:
-                        var.setIntegerValue(unpackBigInteger());
-                        return var;
-                    default:
-                        var.setIntegerValue(unpackLong());
-                        return var;
-                }
-            case FLOAT:
-                var.setFloatValue(unpackDouble());
-                return var;
-            case STRING: {
-                int length = unpackRawStringHeader();
-                var.setStringValue(readPayload(length));
-                return var;
-            }
-            case BINARY: {
-                int length = unpackBinaryHeader();
-                var.setBinaryValue(readPayload(length));
-                return var;
-            }
-            case ARRAY: {
-                int size = unpackArrayHeader();
-                Value[] kvs = new Value[size];
-                for (int i = 0; i < size; i++) {
-                    kvs[i] = unpackValue();
-                }
-                var.setArrayValue(kvs);
-                return var;
-            }
-            case MAP: {
-                int size = unpackMapHeader();
-                Value[] kvs = new Value[size * 2];
-                for (int i = 0; i < size * 2; ) {
-                    kvs[i] = unpackValue();
-                    i++;
-                    kvs[i] = unpackValue();
-                    i++;
-                }
-                var.setMapValue(kvs);
-                return var;
-            }
-            case EXTENSION: {
-                ExtensionTypeHeader extHeader = unpackExtensionTypeHeader();
-                var.setExtensionValue(extHeader.getType(), readPayload(extHeader.getLength()));
-                return var;
-            }
-            default:
-                throw new MessageFormatException("Unknown value type");
         }
     }
 

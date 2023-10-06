@@ -1,6 +1,7 @@
 /*
  * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
  * - moving its Java package to org.embulk.util.msgpack.core.
+ * - rewriting readTest to use #unpackAsJsonValue()
  *
  * It is licensed under the Apache License, Version 2.0.
  */
@@ -912,7 +913,7 @@ class MessageUnpackerTest extends MessagePackSpec {
     def readTest(input: MessageBufferInput): Unit = {
       withResource(MessagePack.newDefaultUnpacker(input)) { unpacker =>
         while (unpacker.hasNext) {
-          unpacker.unpackValue()
+          unpacker.unpackAsJsonValue()
         }
       }
     }
