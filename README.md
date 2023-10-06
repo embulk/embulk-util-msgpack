@@ -1,6 +1,8 @@
 embulk-util-msgpack
 ====================
 
+*NOTE: No future compatibility is guaranteed as of v0.8.24. All classes in this library may go away.*
+
 This is a utility with the MessagePack format.
 
 It started from a fork of [MessagePack for Java (`msgpack-java`)](https://github.com/msgpack/msgpack-java) so that it would not depend on `msgpack-java`. Plugin's `msgpack-java` could conflict because the Embulk SPI has had a dependency on `msgpack-java` by itself.
