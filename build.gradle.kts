@@ -110,13 +110,14 @@ publishing {
                         // http://central.sonatype.org/pages/requirements.html#license-information
                         name.set("The Apache License, Version 2.0")
                         url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                        distribution.set("repo")
                     }
                 }
 
                 developers {
                     developer {
                         name.set("Dai MIKURUBE")
-                        email.set("dmikurube@treasure-data.com")
+                        email.set("dmikurube@acm.org")
                         roles.set(setOf("fork maintainer"))
                     }
                 }
