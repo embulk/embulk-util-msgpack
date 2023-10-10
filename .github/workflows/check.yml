@@ -17,4 +17,4 @@ jobs:
         distribution: "temurin"
         cache: "gradle"
     - name: Check
-      run: ./gradlew check
+      run: ./gradlew check javadoc
