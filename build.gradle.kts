@@ -66,6 +66,7 @@ tasks.javadoc {
     options {
         locale = "en_US"
         encoding = "UTF-8"
+        overview = "src/main/html/overview.html"
         (this as StandardJavadocDocletOptions).apply {
             links("https://docs.oracle.com/javase/8/docs/api/")
         }
