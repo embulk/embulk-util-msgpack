@@ -69,6 +69,11 @@ tasks.javadoc {
         overview = "src/main/html/overview.html"
         (this as StandardJavadocDocletOptions).apply {
             links("https://docs.oracle.com/javase/8/docs/api/")
+
+            // TODO: Remove those options.
+            // They are added to suppress javadoc errors from the original msgpack-java.
+            addBooleanOption("Xdoclint:none", true)
+            addStringOption("Xmaxwarns", "1")
         }
     }
 }
