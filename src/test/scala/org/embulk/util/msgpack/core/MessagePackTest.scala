@@ -1,6 +1,7 @@
 /*
  * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
  * - moving its Java package to org.embulk.util.msgpack.core.
+ * - removing a test "MessagePack" should "pack/unpack maps in lists"
  *
  * It is licensed under the Apache License, Version 2.0.
  */
@@ -551,43 +552,6 @@ class MessagePackTest extends MessagePackSpec {
         check(ext, _.packExtensionTypeHeader(ext.getType, ext.getLength), _.unpackExtensionTypeHeader())
       }
 
-    }
-
-    "pack/unpack maps in lists" in {
-      val aMap = List(Map("f" -> "x"))
-
-      check(
-        aMap, { packer =>
-          packer.packArrayHeader(aMap.size)
-          for (m <- aMap) {
-            packer.packMapHeader(m.size)
-            for ((k, v) <- m) {
-              packer.packString(k)
-              packer.packString(v)
-            }
-          }
-        }, { unpacker =>
-          val v = new Variable()
-          unpacker.unpackValue(v)
-          import scala.collection.JavaConverters._
-          v.asArrayValue().asScala
-            .map { m =>
-              val mv  = m.asMapValue()
-              val kvs = mv.getKeyValueArray
-
-              kvs
-                .grouped(2)
-                .map({ kvp: Array[Value] =>
-                  val k = kvp(0)
-                  val v = kvp(1)
-
-                  (k.asStringValue().asString, v.asStringValue().asString)
-                })
-                .toMap
-            }
-            .toList
-        }
-      )
     }
 
   }

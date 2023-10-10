@@ -1,6 +1,8 @@
 /*
  * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
  * - moving its Java package to org.embulk.util.msgpack.value.
+ * - removing a test "Value" should "tell most succinct integer type"
+ * - removing checkSuccinctType()
  *
  * It is licensed under the Apache License, Version 2.0.
  */
@@ -29,47 +31,7 @@ import org.scalacheck.Prop.{forAll, propBoolean}
 import scala.util.parsing.json.JSON
 
 class ValueTest extends MessagePackSpec {
-  def checkSuccinctType(pack: MessagePacker => Unit, expectedAtMost: MessageFormat): Boolean = {
-    val b  = createMessagePackData(pack)
-    val v1 = MessagePack.newDefaultUnpacker(b).unpackValue()
-    val mf = v1.asIntegerValue().mostSuccinctMessageFormat()
-    mf.getValueType shouldBe ValueType.INTEGER
-    mf.ordinal() shouldBe <=(expectedAtMost.ordinal())
-
-    val v2 = new Variable
-    MessagePack.newDefaultUnpacker(b).unpackValue(v2)
-    val mf2 = v2.asIntegerValue().mostSuccinctMessageFormat()
-    mf2.getValueType shouldBe ValueType.INTEGER
-    mf2.ordinal() shouldBe <=(expectedAtMost.ordinal())
-
-    true
-  }
-
   "Value" should {
-    "tell most succinct integer type" in {
-      forAll { (v: Byte) =>
-        checkSuccinctType(_.packByte(v), MessageFormat.INT8)
-      }
-      forAll { (v: Short) =>
-        checkSuccinctType(_.packShort(v), MessageFormat.INT16)
-      }
-      forAll { (v: Int) =>
-        checkSuccinctType(_.packInt(v), MessageFormat.INT32)
-      }
-      forAll { (v: Long) =>
-        checkSuccinctType(_.packLong(v), MessageFormat.INT64)
-      }
-      forAll { (v: Long) =>
-        checkSuccinctType(_.packBigInteger(BigInteger.valueOf(v)), MessageFormat.INT64)
-      }
-      forAll { (v: Long) =>
-        v > 0 ==> {
-          // Create value between 2^63-1 < v <= 2^64-1
-          checkSuccinctType(_.packBigInteger(BigInteger.valueOf(Long.MaxValue).add(BigInteger.valueOf(v))), MessageFormat.UINT64)
-        }
-      }
-    }
-
     "produce json strings" in {
 
       import ValueFactory._

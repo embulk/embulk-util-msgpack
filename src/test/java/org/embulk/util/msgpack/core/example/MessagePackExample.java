@@ -1,6 +1,7 @@
 /*
  * This file is based on a copy from MessagePack for Java v0.8.24 with modification on :
  * - moving its Java package to org.embulk.util.msgpack.value.example.
+ * - rewriting readAndWriteFile() with #unpackAsJsonValue()
  *
  * It is licensed under the Apache License, Version 2.0.
  */
@@ -22,6 +23,14 @@
 //
 package org.embulk.util.msgpack.core.example;
 
+import org.embulk.spi.json.JsonArray;
+import org.embulk.spi.json.JsonBoolean;
+import org.embulk.spi.json.JsonDouble;
+import org.embulk.spi.json.JsonLong;
+import org.embulk.spi.json.JsonNull;
+import org.embulk.spi.json.JsonObject;
+import org.embulk.spi.json.JsonString;
+import org.embulk.spi.json.JsonValue;
 import org.embulk.util.msgpack.core.MessagePack;
 import org.embulk.util.msgpack.core.MessagePack.PackerConfig;
 import org.embulk.util.msgpack.core.MessagePack.UnpackerConfig;
@@ -188,55 +197,46 @@ public class MessagePackExample
             MessageFormat format = unpacker.getNextFormat();
 
             // You can also use unpackValue to extract a value of any type
-            Value v = unpacker.unpackValue();
-            switch (v.getValueType()) {
-                case NIL:
-                    v.isNilValue(); // true
+            JsonValue v = unpacker.unpackAsJsonValue();
+            switch (v.getEntityType()) {
+                case NULL:
+                    v.isJsonNull(); // true
                     System.out.println("read nil");
                     break;
                 case BOOLEAN:
-                    boolean b = v.asBooleanValue().getBoolean();
+                    boolean b = v.asJsonBoolean().booleanValue();
                     System.out.println("read boolean: " + b);
                     break;
-                case INTEGER:
-                    IntegerValue iv = v.asIntegerValue();
-                    if (iv.isInIntRange()) {
-                        int i = iv.toInt();
+                case LONG:
+                    JsonLong iv = v.asJsonLong();
+                    if (iv.isIntValue()) {
+                        int i = iv.intValue();
                         System.out.println("read int: " + i);
                     }
-                    else if (iv.isInLongRange()) {
-                        long l = iv.toLong();
+                    else if (iv.isLongValue()) {
+                        long l = iv.longValue();
                         System.out.println("read long: " + l);
                     }
                     else {
-                        BigInteger i = iv.toBigInteger();
+                        BigInteger i = iv.bigIntegerValue();
                         System.out.println("read long: " + i);
                     }
                     break;
-                case FLOAT:
-                    FloatValue fv = v.asFloatValue();
-                    float f = fv.toFloat();   // use as float
-                    double d = fv.toDouble(); // use as double
+                case DOUBLE:
+                    JsonDouble fv = v.asJsonDouble();
+                    float f = fv.floatValue();   // use as float
+                    double d = fv.doubleValue(); // use as double
                     System.out.println("read float: " + d);
                     break;
                 case STRING:
-                    String s = v.asStringValue().asString();
+                    String s = v.asJsonString().getString();
                     System.out.println("read string: " + s);
                     break;
-                case BINARY:
-                    byte[] mb = v.asBinaryValue().asByteArray();
-                    System.out.println("read binary: size=" + mb.length);
-                    break;
                 case ARRAY:
-                    ArrayValue a = v.asArrayValue();
-                    for (Value e : a) {
+                    JsonArray a = v.asJsonArray();
+                    for (JsonValue e : a) {
                         System.out.println("read array element: " + e);
                     }
-                    break;
-                case EXTENSION:
-                    ExtensionValue ev = v.asExtensionValue();
-                    byte extType = ev.getType();
-                    byte[] extValue = ev.getData();
                     break;
             }
         }
