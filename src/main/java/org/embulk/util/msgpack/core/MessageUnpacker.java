@@ -621,6 +621,9 @@ public class MessageUnpacker
             case INTEGER:
                 if (mf == MessageFormat.UINT64) {
                     final BigInteger bigInteger = unpackBigInteger();
+                    if (0 <= bigInteger.compareTo(LONG_MIN) && bigInteger.compareTo(LONG_MAX) <= 0) {
+                        return JsonLong.of(bigInteger.longValue());
+                    }
                     return JsonLong.withLiteral(bigInteger.longValue(), bigInteger.toString());
                 }
                 else {
@@ -1689,4 +1692,7 @@ public class MessageUnpacker
         long lv = (long) (u32 & 0x7fffffff) + 0x80000000L;
         return new MessageSizeException(lv);
     }
+
+    private static final BigInteger LONG_MAX = BigInteger.valueOf(Long.MAX_VALUE);
+    private static final BigInteger LONG_MIN = BigInteger.valueOf(Long.MIN_VALUE);
 }
