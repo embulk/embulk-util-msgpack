@@ -14,7 +14,7 @@ repositories {
 }
 
 group = "org.embulk"
-version = "0.8.24.1-SNAPSHOT"
+version = "0.8.24.1"
 description = "Utility with the MessagePack format for Embulk plugins"
 
 sourceSets {
